@@ -1,0 +1,17 @@
+body {
+    background-color: tomato;
+}
+div {
+    color: white;
+    font-family: 'Comic Sans MS';
+    text-align: center;
+    
+}
+
+img {
+    display: block;
+    
+    
+    width: 200px;
+    margin: auto;
+}
