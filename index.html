@@ -1,24 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="5">
-    <link rel="stylesheet" href="index.css">
-    <title>Ich liebe Keks</title>
+    <title>Event-Website</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="text">
-        <h1>Hallo</h1>
-        <h2>Hallo</h2>
-        <h3>Hallo</h3>
-        <h4>Hallo</h4>
-        <h5>Hallo</h5>
-        <h6>Hallo</h6>
-    </div>
-    <img src="cockie.png" alt="Cookie">
-    
+    <header>
+        <div class="profile">
+            <img src="profilbild.png" alt="Profilbild">
+            <span>V</span>
+        </div>
+        <nav>
+            <button class="active">Events</button>
+            <button>Filme</button>
+            <button>Serien</button>
+            <button>Liste</button>
+        </nav>
+    </header>
 
-    
+    <main>
+        <section>
+            <h2>Bevorstehende Events</h2>
+            <div class="event-container">
+                <div class="event">
+                    <img src="event1.jpg" alt="Event-Bild">
+                    <div class="event-info">
+                        <span class="age">12+</span>
+                        <span class="genre">ACTION</span>
+                    </div>
+                </div>
+                <div class="placeholder" style="background-image: url('event2.jpg');"></div>
+                <div class="placeholder" style="background-image: url('event3.jpg');"></div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Beliebte Events</h2>
+            <div class="event-container">
+                <div class="placeholder large" style="background-image: url('event4.jpg');"></div>
+                <div class="placeholder" style="background-image: url('event5.jpg');"></div>
+                <div class="placeholder" style="background-image: url('event6.jpg');"></div>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
