@@ -1,70 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Great Bird Empire</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <h1>The Great Bird Empire</h1>
-    </header>
+/* Allgemeines Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #0d1117;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
 
-    <main>
-        <section class="hero">
-            <div class="logo">🐦🔥</div>
-            <p>Welcome to <strong>The Great Bird Empire</strong>! The strongest Minecraft team in existence.</p>
-        </section>
+header {
+    background: linear-gradient(90deg, #ffcc00, #ff6600);
+    padding: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0px 4px 10px rgba(255, 102, 0, 0.5);
+}
 
-        <section class="members">
-            <h2>Our Members</h2>
-            
-            <div class="member-category">
-                <h3>👑 Owner</h3>
-                <ul>
-                    <li>🦅 Winter</li>
-                </ul>
-            </div>
+.hero {
+    padding: 40px 20px;
+}
 
-            <div class="member-category">
-                <h3>🦾 Co-Owner</h3>
-                <ul>
-                    <li>🦉 EmilDieEnte</li>
-                </ul>
-            </div>
+.logo {
+    font-size: 60px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    animation: glow 2s infinite alternate;
+}
 
-            <div class="member-category">
-                <h3>🏛️ Council Members</h3>
-                <ul>
-                    <li>🕊️ ZuZu</li>
-                </ul>
-            </div>
+@keyframes glow {
+    0% { text-shadow: 0 0 10px #ffcc00; }
+    100% { text-shadow: 0 0 20px #ff6600; }
+}
 
-            <div class="member-category">
-                <h3>⚔️ Team Members</h3>
-                <ul>
-                    <li>🦜 CrazyVs</li>
-                    <li>🦜 Kingjgo</li>
-                    <li>🦜 birdyy</li>
-                    <li>🦜 Coro</li>
-                    <li>🦜 Dvrk</li>
-                    <li>🦜 Sultan</li>
-                </ul>
-            </div>
-            <div class="member-category">
-                <h3>⚔️ Allys</h3>
-                <ul>
-                    <li>🦜 TomTom</li>
-                    <li>🦜 Chlyde</li>
-                    <li>🦜 Mallow (charizard)</li>
+.members {
+    padding: 30px 20px;
+    background: #161b22;
+    border-radius: 10px;
+    display: inline-block;
+    width: 80%;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+}
 
-        </section>
+.members h2 {
+    margin-bottom: 20px;
+}
 
-        <section class="contact">
-            <h2>Contact Us</h2>
-            <p>Join our Discord: <a href="#">https://discord.gg/AMDhbDHh3X</a></p>
-        </section>
-    </main>
-</body>
-</html>
+.member-category {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 8px;
+}
+
+.member-category h3 {
+    color: #ffcc00;
+    margin-bottom: 8px;
+}
+
+.member-category ul {
+    list-style: none;
+    padding: 0;
+}
+
+.contact {
+    margin-top: 30px;
+    padding: 20px;
+    background: #222;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+    margin: 30px auto;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
+}
+
+a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #ff6600;
+}
