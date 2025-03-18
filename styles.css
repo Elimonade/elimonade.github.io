@@ -53,6 +53,9 @@ nav a:hover {
 .member-category h3 {
     font-size: 1.5rem;
     color: #ff6600; /* Orange */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .member-category ul {
@@ -64,23 +67,42 @@ nav a:hover {
     font-size: 1.2rem;
     margin: 5px 0;
     color: #ffffff; /* Weiße Schrift */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Stile für die Krone */
 .crown-icon {
     width: 24px; /* Größe anpassen */
     height: 24px; /* Größe anpassen */
-    vertical-align: middle; /* Damit das Bild mit dem Text ausgerichtet ist */
     margin-right: 8px; /* Abstand zwischen Bild und Text */
 }
 
-.contact p a, .videos ul li a {
+/* Stile für die Vogelbilder */
+.bird-icon {
+    width: 24px; /* Größe anpassen */
+    height: 24px; /* Größe anpassen */
+    margin-right: 8px; /* Abstand zwischen Bild und Text */
+}
+
+/* Kontaktseite */
+.contact {
+    padding: 20px;
+}
+
+.contact p a {
     color: #ff6600; /* Orange */
     text-decoration: none;
 }
 
-.contact p a:hover, .videos ul li a:hover {
+.contact p a:hover {
     text-decoration: underline;
+}
+
+/* Videos-Seite */
+.videos {
+    padding: 20px;
 }
 
 .videos ul {
@@ -90,4 +112,13 @@ nav a:hover {
 
 .videos ul li {
     margin: 10px 0;
+}
+
+.videos ul li a {
+    color: #ff6600; /* Orange */
+    text-decoration: none;
+}
+
+.videos ul li a:hover {
+    text-decoration: underline;
 }
