@@ -3,30 +3,31 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
-    color: #333;
+    background-color: #1a1a1a; /* Dunkler Hintergrund */
+    color: #ffffff; /* Weiße Schrift */
 }
 
 header {
     padding: 20px;
-    background-color: #333;
-    color: white;
+    background-color: #ff6600; /* Orange */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 header h1 {
     margin: 0;
     font-size: 2.5rem;
+    color: #ffffff; /* Weiße Schrift */
 }
 
 nav a {
-    color: white;
+    color: #ffffff; /* Weiße Schrift */
     text-decoration: none;
     margin: 0 15px;
     font-weight: bold;
 }
 
 nav a:hover {
-    color: #ffcc00;
+    color: #1a1a1a; /* Dunkle Schrift beim Hover */
 }
 
 .hero {
@@ -36,10 +37,12 @@ nav a:hover {
 .hero .logo {
     font-size: 3rem;
     margin-bottom: 10px;
+    color: #ff6600; /* Orange */
 }
 
 .hero p {
     font-size: 1.2rem;
+    color: #ffffff; /* Weiße Schrift */
 }
 
 .member-category {
@@ -48,7 +51,7 @@ nav a:hover {
 
 .member-category h3 {
     font-size: 1.5rem;
-    color: #333;
+    color: #ff6600; /* Orange */
 }
 
 .member-category ul {
@@ -59,10 +62,11 @@ nav a:hover {
 .member-category li {
     font-size: 1.2rem;
     margin: 5px 0;
+    color: #ffffff; /* Weiße Schrift */
 }
 
 .contact p a, .videos ul li a {
-    color: #007BFF;
+    color: #ff6600; /* Orange */
     text-decoration: none;
 }
 
