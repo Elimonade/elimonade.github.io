@@ -1,3 +1,4 @@
+/* Allgemeine Stile */
 body {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     text-align: center;
@@ -63,6 +64,14 @@ nav a:hover {
     font-size: 1.2rem;
     margin: 5px 0;
     color: #ffffff; /* Weiße Schrift */
+}
+
+/* Stile für die Krone */
+.crown-icon {
+    width: 24px; /* Größe anpassen */
+    height: 24px; /* Größe anpassen */
+    vertical-align: middle; /* Damit das Bild mit dem Text ausgerichtet ist */
+    margin-right: 8px; /* Abstand zwischen Bild und Text */
 }
 
 .contact p a, .videos ul li a {
