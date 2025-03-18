@@ -86,6 +86,13 @@ nav a:hover {
     margin-right: 8px; /* Abstand zwischen Bild und Text */
 }
 
+/* Stile für das Schwertbild */
+.sword-icon {
+    width: 24px; /* Größe anpassen */
+    height: 24px; /* Größe anpassen */
+    margin-right: 8px; /* Abstand zwischen Bild und Text */
+}
+
 /* Kontaktseite */
 .contact {
     padding: 20px;
