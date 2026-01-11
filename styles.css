@@ -1,131 +1,127 @@
-/* Allgemeine Stile */
 body {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    background-color: #1a1a1a; /* Dunkler Hintergrund */
-    color: #ffffff; /* Weiße Schrift */
+  margin: 0;
+  height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+  background: linear-gradient(180deg, #fde6ee, #fff4f8);
+  overflow: hidden;
+  color: #5a3a4a;
 }
 
-header {
-    padding: 20px;
-    background-color: #ff6600; /* Orange */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+.container {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2.5rem;
-    color: #ffffff; /* Weiße Schrift */
+.card {
+  background-color: #fff0f6;
+  padding: 45px;
+  border-radius: 25px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+  animation: popIn 1s ease forwards;
 }
 
-nav a {
-    color: #ffffff; /* Weiße Schrift */
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: bold;
+h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
 }
 
-nav a:hover {
-    color: #1a1a1a; /* Dunkle Schrift beim Hover */
+h2 {
+  font-size: 22px;
+  font-weight: normal;
+  margin-bottom: 30px;
+  opacity: 0.9;
 }
 
-.hero {
-    padding: 40px 20px;
+p {
+  font-size: 18px;
+  line-height: 1.6;
 }
 
-.hero .logo {
-    font-size: 3rem;
-    margin-bottom: 10px;
-    color: #ff6600; /* Orange */
+.button {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 14px 34px;
+  border-radius: 40px;
+  background-color: #f7b2c4;
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+  transition: transform 0.2s, background-color 0.3s;
 }
 
-.hero p {
-    font-size: 1.2rem;
-    color: #ffffff; /* Weiße Schrift */
+.button:hover {
+  background-color: #f49ab4;
+  transform: scale(1.08);
 }
 
-.member-category {
-    margin-bottom: 20px;
+footer {
+  margin-top: 35px;
+  font-size: 14px;
+  opacity: 0.7;
 }
 
-.member-category h3 {
-    font-size: 1.5rem;
-    color: #ff6600; /* Orange */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Card animation */
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
-.member-category ul {
-    list-style-type: none;
-    padding: 0;
+/* Cherry blossoms */
+.blossoms span {
+  position: absolute;
+  top: -10%;
+  font-size: 28px;
+  animation: fall linear infinite;
+  opacity: 0.8;
 }
 
-.member-category li {
-    font-size: 1.2rem;
-    margin: 5px 0;
-    color: #ffffff; /* Weiße Schrift */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.blossoms span:nth-child(1) {
+  left: 10%;
+  animation-duration: 12s;
 }
 
-/* Stile für die Krone */
-.crown-icon {
-    width: 24px; /* Größe anpassen */
-    height: 24px; /* Größe anpassen */
-    margin-right: 8px; /* Abstand zwischen Bild und Text */
+.blossoms span:nth-child(2) {
+  left: 25%;
+  animation-duration: 15s;
 }
 
-/* Stile für die Vogelbilder */
-.bird-icon {
-    width: 24px; /* Größe anpassen */
-    height: 24px; /* Größe anpassen */
-    margin-right: 8px; /* Abstand zwischen Bild und Text */
+.blossoms span:nth-child(3) {
+  left: 45%;
+  animation-duration: 11s;
 }
 
-/* Stile für das Schwertbild */
-.sword-icon {
-    width: 24px; /* Größe anpassen */
-    height: 24px; /* Größe anpassen */
-    margin-right: 8px; /* Abstand zwischen Bild und Text */
+.blossoms span:nth-child(4) {
+  left: 60%;
+  animation-duration: 14s;
 }
 
-/* Kontaktseite */
-.contact {
-    padding: 20px;
+.blossoms span:nth-child(5) {
+  left: 75%;
+  animation-duration: 13s;
 }
 
-.contact p a {
-    color: #ff6600; /* Orange */
-    text-decoration: none;
+.blossoms span:nth-child(6) {
+  left: 90%;
+  animation-duration: 16s;
 }
 
-.contact p a:hover {
-    text-decoration: underline;
-}
-
-/* Videos-Seite */
-.videos {
-    padding: 20px;
-}
-
-.videos ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.videos ul li {
-    margin: 10px 0;
-}
-
-.videos ul li a {
-    color: #ff6600; /* Orange */
-    text-decoration: none;
-}
-
-.videos ul li a:hover {
-    text-decoration: underline;
+@keyframes fall {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(120vh) rotate(360deg);
+  }
 }
