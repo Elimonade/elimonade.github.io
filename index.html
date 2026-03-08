@@ -12,7 +12,12 @@ margin:0;
 padding:30px;
 }
 
-h1{margin-bottom:20px}
+h1{margin-bottom:10px}
+
+.lockinfo{
+margin-bottom:20px;
+color:#94a3b8;
+}
 
 .controls{
 background:#1e293b;
@@ -36,6 +41,11 @@ cursor:pointer;
 }
 
 button:hover{background:#2563eb}
+
+button:disabled{
+background:#475569;
+cursor:not-allowed;
+}
 
 .tierlist{
 display:flex;
@@ -72,7 +82,6 @@ padding:6px 10px;
 background:#334155;
 border-radius:6px;
 font-size:14px;
-cursor:grab;
 }
 
 .ht{background:#ef4444}
@@ -83,18 +92,21 @@ cursor:grab;
 <body>
 
 <h1>Minecraft PvP Tier List</h1>
+<div class="lockinfo">Viewer mode by default. Enter password to edit tiers.</div>
+
+<button onclick="unlock()" id="unlockBtn">Enter Edit Password</button>
 
 <div class="controls">
 
 <div>
-<input id="playerName" placeholder="Player name">
-<button onclick="addPlayer()">Add Player</button>
+<input id="playerName" placeholder="Player name" disabled>
+<button onclick="addPlayer()" id="addPlayerBtn" disabled>Add Player</button>
 </div>
 
 <div>
-<select id="playerSelect"></select>
-<select id="tierSelect"></select>
-<button onclick="assignTier()">Assign</button>
+<select id="playerSelect" disabled></select>
+<select id="tierSelect" disabled></select>
+<button onclick="assignTier()" id="assignBtn" disabled>Assign</button>
 </div>
 
 </div>
@@ -102,6 +114,10 @@ cursor:grab;
 <div class="tierlist" id="tiers"></div>
 
 <script>
+
+const PASSWORD = "Pk37"
+let unlocked = false
+
 let players=[]
 
 let tierOrder=[
@@ -113,8 +129,28 @@ let tierOrder=[
 ]
 
 let tiers={}
-
 tierOrder.forEach(t=>tiers[t]=[])
+
+function unlock(){
+let input = prompt("Enter password to edit tiers")
+
+if(input === PASSWORD){
+
+unlocked = true
+
+ document.getElementById("playerName").disabled=false
+ document.getElementById("addPlayerBtn").disabled=false
+ document.getElementById("playerSelect").disabled=false
+ document.getElementById("tierSelect").disabled=false
+ document.getElementById("assignBtn").disabled=false
+
+ document.getElementById("unlockBtn").innerText="Editing Enabled"
+ document.getElementById("unlockBtn").disabled=true
+
+}else{
+alert("Wrong password")
+}
+}
 
 function refreshSelectors(){
 let ps=document.getElementById("playerSelect")
@@ -141,6 +177,8 @@ render()
 }
 
 function addPlayer(){
+if(!unlocked) return
+
 let name=document.getElementById("playerName").value.trim()
 if(!name)return
 
@@ -148,11 +186,14 @@ if(!players.includes(name)){
 players.push(name)
 }
 
-document.getElementById("playerName").value=""
+ document.getElementById("playerName").value=""
+
 refreshSelectors()
 }
 
 function assignTier(){
+if(!unlocked) return
+
 let player=document.getElementById("playerSelect").value
 let tier=document.getElementById("tierSelect").value
 
@@ -171,7 +212,7 @@ function render(){
 let container=document.getElementById("tiers")
 container.innerHTML=""
 
-tierOrder.forEach(tier=>{
+ tierOrder.forEach(tier=>{
 
 let row=document.createElement("div")
 row.className="tier-row"
@@ -204,6 +245,7 @@ container.appendChild(row)
 }
 
 refreshSelectors()
+
 </script>
 
 </body>
