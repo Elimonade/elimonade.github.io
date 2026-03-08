@@ -74,14 +74,31 @@ flex:1;
 padding:10px;
 display:flex;
 flex-wrap:wrap;
-gap:8px;
+gap:10px;
 }
 
 .player{
-padding:6px 10px;
+display:flex;
+align-items:center;
+gap:6px;
+padding:4px 8px;
 background:#334155;
 border-radius:6px;
 font-size:14px;
+}
+
+.player img{
+width:20px;
+height:20px;
+border-radius:4px;
+}
+
+.removeBtn{
+margin-left:6px;
+background:#ef4444;
+font-size:12px;
+padding:2px 6px;
+border-radius:4px;
 }
 
 .ht{background:#ef4444}
@@ -129,7 +146,29 @@ let tierOrder=[
 ]
 
 let tiers={}
+
+function load(){
+
+let savedPlayers = localStorage.getItem("players")
+let savedTiers = localStorage.getItem("tiers")
+
+if(savedPlayers){
+players = JSON.parse(savedPlayers)
+}
+
+if(savedTiers){
+tiers = JSON.parse(savedTiers)
+}else{
 tierOrder.forEach(t=>tiers[t]=[])
+}
+
+refreshSelectors()
+}
+
+function save(){
+localStorage.setItem("players", JSON.stringify(players))
+localStorage.setItem("tiers", JSON.stringify(tiers))
+}
 
 function unlock(){
 let input = prompt("Enter password to edit tiers")
@@ -188,6 +227,7 @@ players.push(name)
 
  document.getElementById("playerName").value=""
 
+save()
 refreshSelectors()
 }
 
@@ -205,6 +245,16 @@ tiers[t]=tiers[t].filter(p=>p!==player)
 
 tiers[tier].push(player)
 
+save()
+render()
+}
+
+function removePlayer(player,tier){
+if(!unlocked) return
+
+ tiers[tier] = tiers[tier].filter(p=>p!==player)
+
+save()
 render()
 }
 
@@ -231,9 +281,27 @@ let playersDiv=document.createElement("div")
 playersDiv.className="tier-players"
 
  tiers[tier].forEach(player=>{
+
 let p=document.createElement("div")
 p.className="player"
-p.textContent=player
+
+let head=document.createElement("img")
+head.src=`https://mc-heads.net/avatar/${player}`
+
+let name=document.createElement("span")
+name.textContent=player
+
+p.appendChild(head)
+p.appendChild(name)
+
+if(unlocked){
+let remove=document.createElement("button")
+remove.className="removeBtn"
+remove.innerText="x"
+remove.onclick=()=>removePlayer(player,tier)
+p.appendChild(remove)
+}
+
 playersDiv.appendChild(p)
 })
 
@@ -244,7 +312,7 @@ container.appendChild(row)
 })
 }
 
-refreshSelectors()
+load()
 
 </script>
 
