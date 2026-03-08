@@ -2,97 +2,215 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Tier List Maker</title>
+<title>Minecraft PvP Tier List</title>
 <style>
-body{font-family:Arial;margin:20px;background:#111;color:#eee}
-h1{margin-bottom:10px}
-input,button,select{margin:5px;padding:6px}
-.tier{border:1px solid #555;padding:10px;margin:10px 0;border-radius:8px}
-.player{padding:4px 8px;background:#333;margin:3px;border-radius:6px;display:inline-block}
+body{
+font-family:Arial, Helvetica, sans-serif;
+background:#0f172a;
+color:white;
+margin:0;
+padding:30px;
+}
+
+h1{
+margin-bottom:20px;
+}
+
+.controls{
+background:#1e293b;
+padding:15px;
+border-radius:10px;
+margin-bottom:25px;
+}
+
+input,select,button{
+padding:8px;
+margin:4px;
+border-radius:6px;
+border:none;
+font-size:14px;
+}
+
+button{
+background:#3b82f6;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#2563eb;
+}
+
+.tierlist{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.tier-row{
+display:flex;
+align-items:center;
+background:#1e293b;
+border-radius:10px;
+overflow:hidden;
+}
+
+.tier-label{
+width:90px;
+font-weight:bold;
+text-align:center;
+padding:15px 0;
+font-size:22px;
+}
+
+.tier-players{
+flex:1;
+padding:10px;
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+}
+
+.player{
+padding:6px 10px;
+background:#334155;
+border-radius:6px;
+font-size:14px;
+cursor:grab;
+}
+
+.player:active{
+cursor:grabbing;
+}
+
+.s{background:#ef4444}
+.a{background:#f97316}
+.b{background:#eab308}
+.c{background:#22c55e}
+.d{background:#3b82f6}
+
 </style>
 </head>
 <body>
-<h1>Tier List Builder</h1>
 
-<h3>Add Player</h3>
+<h1>Minecraft PvP Tier List</h1>
+
+<div class="controls">
+
+<div>
 <input id="playerName" placeholder="Player name">
-<button onclick="addPlayer()">Add</button>
+<button onclick="addPlayer()">Add Player</button>
+</div>
 
-<h3>Add Tier</h3>
-<input id="tierName" placeholder="Tier name (S,A,B etc)">
+<div>
+<input id="tierName" placeholder="Tier (S,A,B...)" maxlength="2">
 <button onclick="addTier()">Add Tier</button>
+</div>
 
-<h3>Assign Player to Tier</h3>
+<div>
 <select id="playerSelect"></select>
 <select id="tierSelect"></select>
 <button onclick="assignTier()">Assign</button>
+</div>
 
-<div id="tiers"></div>
+</div>
+
+<div class="tierlist" id="tiers"></div>
 
 <script>
 let players=[]
 let tiers={}
 
-function refresh(){
+function refreshSelectors(){
 let ps=document.getElementById("playerSelect")
 let ts=document.getElementById("tierSelect")
+
 ps.innerHTML=""
 ts.innerHTML=""
+
 players.forEach(p=>{
 let o=document.createElement("option")
-o.text=p
-ps.add(o)
+o.value=p
+ o.text=p
+ps.appendChild(o)
 })
+
 Object.keys(tiers).forEach(t=>{
 let o=document.createElement("option")
-o.text=t
- ts.add(o)
+o.value=t
+ o.text=t
+ ts.appendChild(o)
 })
+
 render()
 }
 
 function addPlayer(){
-let name=document.getElementById("playerName").value
+let name=document.getElementById("playerName").value.trim()
 if(!name)return
+
+if(!players.includes(name)){
 players.push(name)
-refresh()
+}
+
+document.getElementById("playerName").value=""
+refreshSelectors()
 }
 
 function addTier(){
-let name=document.getElementById("tierName").value
+let name=document.getElementById("tierName").value.trim().toUpperCase()
 if(!name)return
+
+if(!tiers[name]){
 tiers[name]=[]
-refresh()
+}
+
+document.getElementById("tierName").value=""
+refreshSelectors()
 }
 
 function assignTier(){
-let p=document.getElementById("playerSelect").value
-let t=document.getElementById("tierSelect").value
-if(!p||!t)return
-Object.keys(tiers).forEach(k=>{
-tiers[k]=tiers[k].filter(x=>x!==p)
+let player=document.getElementById("playerSelect").value
+let tier=document.getElementById("tierSelect").value
+
+if(!player || !tier) return
+
+Object.keys(tiers).forEach(t=>{
+tiers[t]=tiers[t].filter(p=>p!==player)
 })
-tiers[t].push(p)
+
+tiers[tier].push(player)
+
 render()
 }
 
 function render(){
 let container=document.getElementById("tiers")
 container.innerHTML=""
-Object.keys(tiers).forEach(t=>{
-let div=document.createElement("div")
-div.className="tier"
-div.innerHTML="<h2>"+t+"</h2>"
 
-tiers[t].forEach(p=>{
-let span=document.createElement("span")
-span.className="player"
-span.textContent=p
+Object.keys(tiers).sort().forEach(tier=>{
 
-div.appendChild(span)
+let row=document.createElement("div")
+row.className="tier-row"
+
+let label=document.createElement("div")
+label.className="tier-label " + tier.toLowerCase()
+label.textContent=tier
+
+let playersDiv=document.createElement("div")
+playersDiv.className="tier-players"
+
+ tiers[tier].forEach(player=>{
+let p=document.createElement("div")
+p.className="player"
+p.textContent=player
+playersDiv.appendChild(p)
 })
 
-container.appendChild(div)
+row.appendChild(label)
+row.appendChild(playersDiv)
+container.appendChild(row)
+
 })
 }
 </script>
