@@ -4,106 +4,23 @@
 <meta charset="UTF-8">
 <title>Minecraft PvP Tier List</title>
 <style>
-body{
-font-family:Arial, Helvetica, sans-serif;
-background:#0f172a;
-color:white;
-margin:0;
-padding:30px;
-}
-
+body{font-family:Arial, Helvetica, sans-serif;background:#0f172a;color:white;margin:0;padding:30px}
 h1{margin-bottom:10px}
-
-.lockinfo{
-margin-bottom:20px;
-color:#94a3b8;
-}
-
-.controls{
-background:#1e293b;
-padding:15px;
-border-radius:10px;
-margin-bottom:25px;
-}
-
-input,select,button{
-padding:8px;
-margin:4px;
-border-radius:6px;
-border:none;
-font-size:14px;
-}
-
-button{
-background:#3b82f6;
-color:white;
-cursor:pointer;
-}
-
+.lockinfo{margin-bottom:20px;color:#94a3b8}
+.controls{background:#1e293b;padding:15px;border-radius:10px;margin-bottom:25px}
+input,select,button{padding:8px;margin:4px;border-radius:6px;border:none;font-size:14px}
+button{background:#3b82f6;color:white;cursor:pointer}
 button:hover{background:#2563eb}
-
-button:disabled{
-background:#475569;
-cursor:not-allowed;
-}
-
-.tierlist{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.tier-row{
-display:flex;
-align-items:center;
-background:#1e293b;
-border-radius:10px;
-overflow:hidden;
-}
-
-.tier-label{
-width:90px;
-font-weight:bold;
-text-align:center;
-padding:15px 0;
-font-size:18px;
-}
-
-.tier-players{
-flex:1;
-padding:10px;
-display:flex;
-flex-wrap:wrap;
-gap:10px;
-}
-
-.player{
-display:flex;
-align-items:center;
-gap:6px;
-padding:4px 8px;
-background:#334155;
-border-radius:6px;
-font-size:14px;
-}
-
-.player img{
-width:20px;
-height:20px;
-border-radius:4px;
-}
-
-.removeBtn{
-margin-left:6px;
-background:#ef4444;
-font-size:12px;
-padding:2px 6px;
-border-radius:4px;
-}
-
+button:disabled{background:#475569;cursor:not-allowed}
+.tierlist{display:flex;flex-direction:column;gap:10px}
+.tier-row{display:flex;align-items:center;background:#1e293b;border-radius:10px;overflow:hidden}
+.tier-label{width:90px;font-weight:bold;text-align:center;padding:15px 0;font-size:18px}
+.tier-players{flex:1;padding:10px;display:flex;flex-wrap:wrap;gap:10px}
+.player{display:flex;align-items:center;gap:6px;padding:4px 8px;background:#334155;border-radius:6px;font-size:14px}
+.player img{width:20px;height:20px;border-radius:4px}
+.removeBtn{margin-left:6px;background:#ef4444;font-size:12px;padding:2px 6px;border-radius:4px}
 .ht{background:#ef4444}
 .lt{background:#22c55e}
-
 </style>
 </head>
 <body>
@@ -114,18 +31,15 @@ border-radius:4px;
 <button onclick="unlock()" id="unlockBtn">Enter Edit Password</button>
 
 <div class="controls">
-
 <div>
 <input id="playerName" placeholder="Player name" disabled>
 <button onclick="addPlayer()" id="addPlayerBtn" disabled>Add Player</button>
 </div>
-
 <div>
 <select id="playerSelect" disabled></select>
 <select id="tierSelect" disabled></select>
 <button onclick="assignTier()" id="assignBtn" disabled>Assign</button>
 </div>
-
 </div>
 
 <div class="tierlist" id="tiers"></div>
@@ -133,7 +47,7 @@ border-radius:4px;
 <script>
 
 const PASSWORD = "Pk37"
-let unlocked = false
+let unlocked=false
 
 let players=[]
 
@@ -147,118 +61,126 @@ let tierOrder=[
 
 let tiers={}
 
-function load(){
+async function load(){
 
-let savedPlayers = localStorage.getItem("players")
-let savedTiers = localStorage.getItem("tiers")
+let res = await fetch("/data")
+let data = await res.json()
 
-if(savedPlayers){
-players = JSON.parse(savedPlayers)
-}
-
-if(savedTiers){
-tiers = JSON.parse(savedTiers)
-}else{
-tierOrder.forEach(t=>tiers[t]=[])
-}
+players = data.players
+ tiers = data.tiers
 
 refreshSelectors()
 }
 
-function save(){
-localStorage.setItem("players", JSON.stringify(players))
-localStorage.setItem("tiers", JSON.stringify(tiers))
+async function save(){
+
+await fetch("/save",{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({players,tiers})
+})
+
 }
 
 function unlock(){
-let input = prompt("Enter password to edit tiers")
 
-if(input === PASSWORD){
+let input=prompt("Enter password to edit tiers")
 
-unlocked = true
+if(input===PASSWORD){
 
- document.getElementById("playerName").disabled=false
- document.getElementById("addPlayerBtn").disabled=false
- document.getElementById("playerSelect").disabled=false
- document.getElementById("tierSelect").disabled=false
- document.getElementById("assignBtn").disabled=false
+unlocked=true
 
- document.getElementById("unlockBtn").innerText="Editing Enabled"
- document.getElementById("unlockBtn").disabled=true
+playerName.disabled=false
+addPlayerBtn.disabled=false
+playerSelect.disabled=false
+tierSelect.disabled=false
+assignBtn.disabled=false
+
+unlockBtn.innerText="Editing Enabled"
+unlockBtn.disabled=true
+
+render()
 
 }else{
 alert("Wrong password")
 }
+
 }
 
 function refreshSelectors(){
-let ps=document.getElementById("playerSelect")
-let ts=document.getElementById("tierSelect")
 
-ps.innerHTML=""
-ts.innerHTML=""
+playerSelect.innerHTML=""
+tierSelect.innerHTML=""
 
 players.forEach(p=>{
 let o=document.createElement("option")
 o.value=p
- o.text=p
-ps.appendChild(o)
+o.text=p
+playerSelect.appendChild(o)
 })
 
-tierOrder.forEach(t=>{
+ tierOrder.forEach(t=>{
 let o=document.createElement("option")
 o.value=t
- o.text=t
- ts.appendChild(o)
+o.text=t
+ tierSelect.appendChild(o)
 })
 
 render()
+
 }
 
 function addPlayer(){
+
 if(!unlocked) return
 
-let name=document.getElementById("playerName").value.trim()
-if(!name)return
+let name=playerName.value.trim()
+if(!name) return
 
 if(!players.includes(name)){
 players.push(name)
 }
 
- document.getElementById("playerName").value=""
+playerName.value=""
 
 save()
 refreshSelectors()
+
 }
 
 function assignTier(){
+
 if(!unlocked) return
 
-let player=document.getElementById("playerSelect").value
-let tier=document.getElementById("tierSelect").value
+let player=playerSelect.value
+let tier=tierSelect.value
 
-if(!player || !tier) return
+if(!player||!tier) return
 
 Object.keys(tiers).forEach(t=>{
 tiers[t]=tiers[t].filter(p=>p!==player)
 })
 
-tiers[tier].push(player)
+ tiers[tier].push(player)
 
 save()
 render()
+
 }
 
 function removePlayer(player,tier){
+
 if(!unlocked) return
 
- tiers[tier] = tiers[tier].filter(p=>p!==player)
+ tiers[tier]=tiers[tier].filter(p=>p!==player)
 
 save()
 render()
+
 }
 
 function render(){
+
 let container=document.getElementById("tiers")
 container.innerHTML=""
 
@@ -268,13 +190,7 @@ let row=document.createElement("div")
 row.className="tier-row"
 
 let label=document.createElement("div")
-
-if(tier.startsWith("HT")){
-label.className="tier-label ht"
-}else{
-label.className="tier-label lt"
-}
-
+label.className="tier-label " + (tier.startsWith("HT")?"ht":"lt")
 label.textContent=tier
 
 let playersDiv=document.createElement("div")
@@ -303,6 +219,7 @@ p.appendChild(remove)
 }
 
 playersDiv.appendChild(p)
+
 })
 
 row.appendChild(label)
@@ -310,6 +227,7 @@ row.appendChild(playersDiv)
 container.appendChild(row)
 
 })
+
 }
 
 load()
