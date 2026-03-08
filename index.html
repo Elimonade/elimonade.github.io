@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Minecraft PvP Tier List</title>
+
 <style>
 body{
 font-family:Arial, Helvetica, sans-serif;
@@ -133,7 +134,7 @@ border-radius:4px;
 <script>
 
 const PASSWORD = "Pk37"
-let unlocked = false
+let unlocked=false
 
 let players=[]
 
@@ -147,97 +148,116 @@ let tierOrder=[
 
 let tiers={}
 
-function load(){
+async function load(){
 
-let savedPlayers = localStorage.getItem("players")
-let savedTiers = localStorage.getItem("tiers")
+try{
+let response = await fetch("data.txt")
+let data = await response.json()
 
-if(savedPlayers){
-players = JSON.parse(savedPlayers)
-}
+players = data.players
+tiers = data.tiers
+}catch{
 
-if(savedTiers){
-tiers = JSON.parse(savedTiers)
-}else{
 tierOrder.forEach(t=>tiers[t]=[])
+
 }
 
 refreshSelectors()
+
 }
 
 function save(){
-localStorage.setItem("players", JSON.stringify(players))
-localStorage.setItem("tiers", JSON.stringify(tiers))
+
+let data={
+players:players,
+tiers:tiers
+}
+
+let text = JSON.stringify(data,null,2)
+
+let blob = new Blob([text],{type:"text/plain"})
+let a=document.createElement("a")
+
+a.href=URL.createObjectURL(blob)
+a.download="data.txt"
+a.click()
+
 }
 
 function unlock(){
-let input = prompt("Enter password to edit tiers")
 
-if(input === PASSWORD){
+let input=prompt("Enter password to edit tiers")
 
-unlocked = true
+if(input===PASSWORD){
 
- document.getElementById("playerName").disabled=false
- document.getElementById("addPlayerBtn").disabled=false
- document.getElementById("playerSelect").disabled=false
- document.getElementById("tierSelect").disabled=false
- document.getElementById("assignBtn").disabled=false
+unlocked=true
 
- document.getElementById("unlockBtn").innerText="Editing Enabled"
- document.getElementById("unlockBtn").disabled=true
+playerName.disabled=false
+addPlayerBtn.disabled=false
+playerSelect.disabled=false
+tierSelect.disabled=false
+assignBtn.disabled=false
+
+unlockBtn.innerText="Editing Enabled"
+unlockBtn.disabled=true
+
+render()
 
 }else{
 alert("Wrong password")
 }
+
 }
 
 function refreshSelectors(){
-let ps=document.getElementById("playerSelect")
-let ts=document.getElementById("tierSelect")
 
-ps.innerHTML=""
-ts.innerHTML=""
+playerSelect.innerHTML=""
+tierSelect.innerHTML=""
 
 players.forEach(p=>{
 let o=document.createElement("option")
 o.value=p
- o.text=p
-ps.appendChild(o)
+o.text=p
+playerSelect.appendChild(o)
 })
 
 tierOrder.forEach(t=>{
 let o=document.createElement("option")
 o.value=t
- o.text=t
- ts.appendChild(o)
+o.text=t
+tierSelect.appendChild(o)
 })
 
 render()
+
 }
 
 function addPlayer(){
+
 if(!unlocked) return
 
-let name=document.getElementById("playerName").value.trim()
-if(!name)return
+let name=playerName.value.trim()
+if(!name) return
 
 if(!players.includes(name)){
 players.push(name)
 }
 
- document.getElementById("playerName").value=""
+playerName.value=""
 
 save()
 refreshSelectors()
+
 }
 
 function assignTier(){
+
 if(!unlocked) return
 
-let player=document.getElementById("playerSelect").value
-let tier=document.getElementById("tierSelect").value
+let player=playerSelect.value
+let tier=tierSelect.value
 
-if(!player || !tier) return
+if(!player||!tier) return
 
 Object.keys(tiers).forEach(t=>{
 tiers[t]=tiers[t].filter(p=>p!==player)
@@ -247,40 +267,38 @@ tiers[tier].push(player)
 
 save()
 render()
+
 }
 
 function removePlayer(player,tier){
+
 if(!unlocked) return
 
- tiers[tier] = tiers[tier].filter(p=>p!==player)
+tiers[tier]=tiers[tier].filter(p=>p!==player)
 
 save()
 render()
+
 }
 
 function render(){
+
 let container=document.getElementById("tiers")
 container.innerHTML=""
 
- tierOrder.forEach(tier=>{
+tierOrder.forEach(tier=>{
 
 let row=document.createElement("div")
 row.className="tier-row"
 
 let label=document.createElement("div")
-
-if(tier.startsWith("HT")){
-label.className="tier-label ht"
-}else{
-label.className="tier-label lt"
-}
-
+label.className="tier-label "+(tier.startsWith("HT")?"ht":"lt")
 label.textContent=tier
 
 let playersDiv=document.createElement("div")
 playersDiv.className="tier-players"
 
- tiers[tier].forEach(player=>{
+tiers[tier].forEach(player=>{
 
 let p=document.createElement("div")
 p.className="player"
@@ -303,6 +321,7 @@ p.appendChild(remove)
 }
 
 playersDiv.appendChild(p)
+
 })
 
 row.appendChild(label)
@@ -310,6 +329,7 @@ row.appendChild(playersDiv)
 container.appendChild(row)
 
 })
+
 }
 
 load()
