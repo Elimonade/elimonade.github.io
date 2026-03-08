@@ -12,9 +12,7 @@ margin:0;
 padding:30px;
 }
 
-h1{
-margin-bottom:20px;
-}
+h1{margin-bottom:20px}
 
 .controls{
 background:#1e293b;
@@ -37,9 +35,7 @@ color:white;
 cursor:pointer;
 }
 
-button:hover{
-background:#2563eb;
-}
+button:hover{background:#2563eb}
 
 .tierlist{
 display:flex;
@@ -60,7 +56,7 @@ width:90px;
 font-weight:bold;
 text-align:center;
 padding:15px 0;
-font-size:22px;
+font-size:18px;
 }
 
 .tier-players{
@@ -79,15 +75,8 @@ font-size:14px;
 cursor:grab;
 }
 
-.player:active{
-cursor:grabbing;
-}
-
-.s{background:#ef4444}
-.a{background:#f97316}
-.b{background:#eab308}
-.c{background:#22c55e}
-.d{background:#3b82f6}
+.ht{background:#ef4444}
+.lt{background:#22c55e}
 
 </style>
 </head>
@@ -103,11 +92,6 @@ cursor:grabbing;
 </div>
 
 <div>
-<input id="tierName" placeholder="Tier (S,A,B...)" maxlength="2">
-<button onclick="addTier()">Add Tier</button>
-</div>
-
-<div>
 <select id="playerSelect"></select>
 <select id="tierSelect"></select>
 <button onclick="assignTier()">Assign</button>
@@ -119,7 +103,18 @@ cursor:grabbing;
 
 <script>
 let players=[]
+
+let tierOrder=[
+"HT1","LT1",
+"HT2","LT2",
+"HT3","LT3",
+"HT4","LT4",
+"HT5","LT5"
+]
+
 let tiers={}
+
+tierOrder.forEach(t=>tiers[t]=[])
 
 function refreshSelectors(){
 let ps=document.getElementById("playerSelect")
@@ -135,7 +130,7 @@ o.value=p
 ps.appendChild(o)
 })
 
-Object.keys(tiers).forEach(t=>{
+tierOrder.forEach(t=>{
 let o=document.createElement("option")
 o.value=t
  o.text=t
@@ -154,18 +149,6 @@ players.push(name)
 }
 
 document.getElementById("playerName").value=""
-refreshSelectors()
-}
-
-function addTier(){
-let name=document.getElementById("tierName").value.trim().toUpperCase()
-if(!name)return
-
-if(!tiers[name]){
-tiers[name]=[]
-}
-
-document.getElementById("tierName").value=""
 refreshSelectors()
 }
 
@@ -188,13 +171,19 @@ function render(){
 let container=document.getElementById("tiers")
 container.innerHTML=""
 
-Object.keys(tiers).sort().forEach(tier=>{
+tierOrder.forEach(tier=>{
 
 let row=document.createElement("div")
 row.className="tier-row"
 
 let label=document.createElement("div")
-label.className="tier-label " + tier.toLowerCase()
+
+if(tier.startsWith("HT")){
+label.className="tier-label ht"
+}else{
+label.className="tier-label lt"
+}
+
 label.textContent=tier
 
 let playersDiv=document.createElement("div")
@@ -213,6 +202,8 @@ container.appendChild(row)
 
 })
 }
+
+refreshSelectors()
 </script>
 
 </body>
