@@ -1,47 +1,101 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Emil | Introduction</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<title>Tier List Maker</title>
+<style>
+body{font-family:Arial;margin:20px;background:#111;color:#eee}
+h1{margin-bottom:10px}
+input,button,select{margin:5px;padding:6px}
+.tier{border:1px solid #555;padding:10px;margin:10px 0;border-radius:8px}
+.player{padding:4px 8px;background:#333;margin:3px;border-radius:6px;display:inline-block}
+</style>
 </head>
 <body>
+<h1>Tier List Builder</h1>
 
-  <div class="blossoms">
-    <span>🌸</span>
-    <span>🌸</span>
-    <span>🌸</span>
-    <span>🌸</span>
-    <span>🌸</span>
-    <span>🌸</span>
-  </div>
+<h3>Add Player</h3>
+<input id="playerName" placeholder="Player name">
+<button onclick="addPlayer()">Add</button>
 
-  <div class="container">
-    <div class="card">
-      <h1>Hello, I’m Emil</h1>
-      <h2>Welcome to my intro website!</h2>
+<h3>Add Tier</h3>
+<input id="tierName" placeholder="Tier name (S,A,B etc)">
+<button onclick="addTier()">Add Tier</button>
 
-      <p>
-        I'm 13 years old and play too much Minecraft!
-      </p>
+<h3>Assign Player to Tier</h3>
+<select id="playerSelect"></select>
+<select id="tierSelect"></select>
+<button onclick="assignTier()">Assign</button>
 
-      <p>
-        Discord: elimohaako<br>
-        Minecraft IGN: EmilDieEnte
-      </p>
+<div id="tiers"></div>
 
-      <button class="button" onclick="sayHello()">Say Hello</button>
-    </div>
+<script>
+let players=[]
+let tiers={}
 
-    <footer>
-    </footer>
-  </div>
+function refresh(){
+let ps=document.getElementById("playerSelect")
+let ts=document.getElementById("tierSelect")
+ps.innerHTML=""
+ts.innerHTML=""
+players.forEach(p=>{
+let o=document.createElement("option")
+o.text=p
+ps.add(o)
+})
+Object.keys(tiers).forEach(t=>{
+let o=document.createElement("option")
+o.text=t
+ ts.add(o)
+})
+render()
+}
 
-  <script>
-    function sayHello() {
-      alert("Hello! 🌸 Thanks for visiting my website!");
-    }
-  </script>
+function addPlayer(){
+let name=document.getElementById("playerName").value
+if(!name)return
+players.push(name)
+refresh()
+}
+
+function addTier(){
+let name=document.getElementById("tierName").value
+if(!name)return
+tiers[name]=[]
+refresh()
+}
+
+function assignTier(){
+let p=document.getElementById("playerSelect").value
+let t=document.getElementById("tierSelect").value
+if(!p||!t)return
+Object.keys(tiers).forEach(k=>{
+tiers[k]=tiers[k].filter(x=>x!==p)
+})
+tiers[t].push(p)
+render()
+}
+
+function render(){
+let container=document.getElementById("tiers")
+container.innerHTML=""
+Object.keys(tiers).forEach(t=>{
+let div=document.createElement("div")
+div.className="tier"
+div.innerHTML="<h2>"+t+"</h2>"
+
+tiers[t].forEach(p=>{
+let span=document.createElement("span")
+span.className="player"
+span.textContent=p
+
+div.appendChild(span)
+})
+
+container.appendChild(div)
+})
+}
+</script>
 
 </body>
 </html>
